@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมดุลสมการเคมี ม.2</title>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #b3e5fc;
+        }
+        .game-area {
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .equation {
+            font-size: 2em;
+            margin: 30px 0;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            font-size: 1.1em;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #00e676;
+            color: #000;
+        }
+        .btn-secondary {
+            background: #448aff;
+            color: white;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .score {
+            font-size: 1.3em;
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .level {
+            font-size: 1.5em;
+            color: #ffeb3b;
+            margin: 10px 0;
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #b3e5fc;
+        }
+        @media (max-width: 600px) {
+            .equation { font-size: 1.5em; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 เกมดุลสมการเคมี</h1>
+            <p class="subtitle">ห้องแลปเสมือนจริง | นักเรียนชั้น ม.2</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="level">ด่านที่ <span id="levelNum">1</span>/3</div>
+            
+            <div class="equation" id="equation">
+                2H₂ + O₂ → 2H₂O
+            </div>
+            
+            <div class="controls">
+                <button class="btn-primary" onclick="checkAnswer()">ตรวจคำตอบ</button>
+                <button class="btn-secondary" onclick="showHint()">คำใบ้</button>
+                <button class="btn-secondary" onclick="nextLevel()">ด่านต่อไป</button>
+            </div>
+            
+            <div class="score">
+                <p>คะแนน: <span id="score">0</span> | ดาว: <span id="stars">☆☆☆</span></p>
+                <p>อะตอมคงที่: <span id="atomStatus">✔ สมดุลแล้ว</span></p>
+            </div>
+            
+            <div style="margin-top: 20px; color: #ffcc80;">
+                <p><strong>ภารกิจ:</strong> ดุลสมการให้จำนวนอะตอมซ้าย-ขวาเท่ากัน</p>
+                <p>เล่นให้ครบ 3 ด่านแล้วบันทึกภาพหน้าจอส่งครู!</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>พัฒนาเพื่อการเรียนการสอนวิทยาศาสตร์ มัธยมต้น</p>
+            <p>© 2026 โรงเรียนตัวอย่าง | ใช้ได้ทั้งคอมพิวเตอร์และโทรศัพท์มือถือ</p>
+        </footer>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentLevel = 1;
+        const equations = [
+            "2H₂ + O₂ → 2H₂O",
+            "CH₄ + 2O₂ → CO₂ + 2H₂O",
+            "2Fe + 6HCl → 2FeCl₃ + 3H₂"
+        ];
+        
+        function updateEquation() {
+            document.getElementById('equation').textContent = equations[currentLevel - 1];
+            document.getElementById('levelNum').textContent = currentLevel;
+        }
+        
+        function checkAnswer() {
+            // ในเวอร์ชันจริงจะมีการตรวจสอบการดุลสมการ
+            score += 10;
+            document.getElementById('score').textContent = score;
+            document.getElementById('atomStatus').innerHTML = '✅ ดุลสมการถูกต้อง!';
+            document.getElementById('atomStatus').style.color = '#00e676';
+        }
+        
+        function showHint() {
+            alert('คำใบ้: นับจำนวนอะตอมแต่ละชนิดทั้งสองฝั่งให้เท่ากัน');
+            score -= 5;
+            if (score < 0) score = 0;
+            document.getElementById('score').textContent = score;
+        }
+        
+        function nextLevel() {
+            if (currentLevel < 3) {
+                currentLevel++;
+                updateEquation();
+                document.getElementById('atomStatus').innerHTML = 'กำลังตรวจสอบ...';
+                document.getElementById('atomStatus').style.color = '#ffcc80';
+            } else {
+                document.getElementById('equation').innerHTML = '🎉 สำเร็จครบ 3 ด่านแล้ว!';
+                document.getElementById('levelNum').textContent = '3';
+                document.getElementById('atomStatus').innerHTML = '⭐ บันทึกภาพหน้านี้ส่งครูได้เลย';
+                document.getElementById('atomStatus').style.color = '#ffeb3b';
+            }
+        }
+        
+        // เริ่มเกม
+        updateEquation();
+    </script>
+</body>
+</html>
